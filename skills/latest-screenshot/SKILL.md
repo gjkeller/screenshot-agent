@@ -10,21 +10,21 @@ When the user asks to check the latest screenshot, clipboard image, or recent do
 
 ## Install (one-time)
 ```bash
-go install github.com/gjkeller/screenshot-agent@latest
+git clone https://github.com/gjkeller/screenshot-agent.git
+cd screenshot-agent
 ```
-Ensure `~/go/bin` (or `$(go env GOPATH)/bin`) is on `PATH`.
 
 ## Usage
-- Desktop: `screenshot-agent`
-- Downloads: `screenshot-agent --downloads`
-- Clipboard only: `screenshot-agent --clipboard-only`
+- Desktop: `node bin/screenshot-agent.js`
+- Downloads: `node bin/screenshot-agent.js --downloads`
+- Clipboard only: `node bin/screenshot-agent.js --clipboard-only`
 - Output is two lines:
   1. source (`clipboard` or original file path)
   2. temp file path (PNG/JPG/JPEG)
 
 ## Agent pattern
 ```bash
-out="$(screenshot-agent)"
+out="$(node bin/screenshot-agent.js)"
 tmp="$(printf "%s\n" "$out" | sed -n '2p')"
 ```
 If `tmp` is empty, treat as not found.
@@ -33,7 +33,7 @@ If `tmp` is empty, treat as not found.
 - Desktop files are copied to temp then trashed.
 - Downloads files are moved to temp (not trashed).
 - Clipboard has no copy timestamp; the tool prefers a file modified within ~30s, otherwise clipboard.
-- Linux: requires X11 dev packages for clipboard (e.g. `libx11-dev`).
+- Linux: requires wl-clipboard or xclip for clipboard images.
 
 ## Fallback (if binary missing)
 ```bash
